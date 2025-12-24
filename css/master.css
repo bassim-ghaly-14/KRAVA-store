@@ -1,0 +1,403 @@
+/* --- متغيرات عامة (light mode) --- */
+:root{
+  --brand-red: #e11b23;
+  --off-red: #9f1419;
+  --brand-black: #111217;
+  --muted: #6b7280;
+  --bg: #ffffff;
+  --card-bg: #ffffff;
+  --text: #0b0b0b;
+  --surface-2: #f7f7f8;
+  --glass: rgba(17,18,23,0.06);
+  --radius: 12px;
+  --container-padding: 1rem;
+  --max-width: 1200px;
+  --transition: 200ms ease;
+}
+
+/* --- dark mode vars (يفعّل عبر data-theme="dark" على عنصر body) --- */
+:root[data-theme="dark"]{
+  --bg: #0b0b0d;
+  --card-bg: #0f1113;
+  --text: #f3f4f6;
+  --muted: #9aa1aa;
+  --surface-2: #0a0a0a;
+  --glass: rgba(255,255,255,0.03);
+}
+
+/* --- قاعدة عامة --- */
+*{box-sizing:border-box}
+html,body{
+  height:100%;
+  margin:0;
+  font-family: "Segoe UI", Tahoma, system-ui, -apple-system, "Helvetica Neue", Arial;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* --- Container مسافة جانبية وقيد العرض --- */
+.container{
+  width: calc(100% - 2*var(--container-padding));
+  max-width: var(--max-width);
+  margin-inline:auto;
+  padding-inline: var(--container-padding);
+}
+
+/* === Header === */
+.site-header{
+  background: linear-gradient(90deg, rgba(0,0,0,0.02), transparent);
+  border-bottom: 1px solid var(--glass);
+  position:sticky;
+  top:0;
+  z-index:50;
+  backdrop-filter: blur(6px);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  padding:0.7rem 0;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  text-decoration:none;
+}
+.brand-logo{
+  height: 80px;
+  justify-content: flex-start;
+  width:auto;
+  display:block;
+}
+.options{
+margin-inline-start:auto; /* يدفع القائمة نحو اليمين (rtl) */
+}
+/* تنقل أساسي */
+.main-nav{
+  margin-left: 300px;
+  display:flex;
+  gap:1rem;
+  align-items:center;
+}
+.main-nav a{
+  text-decoration:none;
+  color:var(--text);
+  padding:0.4rem 0.6rem;
+  border-radius:8px;
+  transition: background var(--transition);
+  font-weight:600;
+}
+.main-nav a:hover{ background:var(--brand-red) }
+
+/* أيقونات الشريط */
+.header-actions{ display:flex; gap:0.5rem; align-items:center; justify-content: flex-end;}
+.theme-toggle, .cart-btn{
+  border:1px solid var(--glass);
+  background:var(--card-bg);
+  font-size: large;
+  padding:0.35rem 0.6rem;
+  border-radius:10px;
+  cursor:pointer;
+  transition: transform 120ms;
+}
+.theme-toggle:active, .cart-btn:active{ transform: scale(.98) }
+.cart-count{
+  margin-inline-start:0.4rem;
+  font-weight:700;
+  color:var(--brand-red);
+}
+
+/* ===== Hero ===== */
+.hero{
+  padding:2.5rem 0;
+}
+.hero-inner{
+  display:flex;
+  gap:2rem;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+.hero-text{ max-width:540px }
+.hero h1{
+  font-size:clamp(1.6rem, 3vw, 2.6rem);
+  margin:0 0 .5rem 0;
+  letter-spacing: -0.01em;
+}
+.lead{ color:var(--muted); margin:0 0 1rem 0 }
+.hero-media img{
+  width:320px;
+  max-width:45vw;
+  border-radius:18px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+}
+
+/* أزرار أساسية */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:0.6rem;
+  padding:0.6rem 0.9rem;
+  border-radius:10px;
+  cursor:pointer;
+  border:0;
+  font-weight:700;
+  text-decoration:none;
+}
+.btn-primary{
+  background: linear-gradient(90deg,var(--brand-red), #c71a20);
+  color:white;
+}
+.btn:hover {
+  background: var(--off-red);
+}
+.btn-outline {
+  background:transparent;
+  border:1px solid var(--glass);
+  color:var(--text);
+}
+.btn-outline:hover {
+  background: rgba(255, 27, 35, 0.05);
+  color: var(--brand-red);
+}
+
+/* ===== منتجات ===== */
+.products-section{ padding:2rem 0 3rem 0 }
+.section-header{ display:flex; align-items:baseline; justify-content:space-between; gap:1rem }
+.section-header h2{ margin:0 }
+.muted{ color:var(--muted) }
+
+/* فلتر */
+.filters{ margin:1rem 0; display:flex; gap:1rem; align-items:center }
+
+/* Hoodies Slider Section */
+.hoodies-slider {
+    position: relative;
+    max-width: 1200px;
+    margin: 40px auto;
+    overflow: hidden;
+    padding: 0 40px;
+  }
+  .slider-wrapper {
+    position: relative;
+  }
+  .slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 20px;
+  }
+  .slide {
+    max-width: 700px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    cursor: grab;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 0 0 80%;
+  }
+  .slide:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  }
+  .slide img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  .nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    font-size: 2rem;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+  }
+  .prev {
+    left: 10px;
+  }
+  .next {
+    right: 10px;
+  }
+  /* Responsive */
+  @media (max-width: 768px) {
+    .slide {
+      flex: 0 0 90%;
+    }
+    .slide img{
+      object-fit: contain;
+    }
+  }
+  @media (max-width: 480px) {
+    .slide {
+      flex: 0 0 100%;
+    }
+  }
+
+/* شبكة المنتجات */
+.products-grid{
+  display:grid;
+  gap:1rem;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+/* بطاقات المنتج */
+.product-card{
+  background:var(--card-bg);
+  border-radius:var(--radius);
+  overflow:hidden;
+  display:flex;
+  height: 640px;
+  flex-direction:column;
+  border:1px solid var(--glass);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.product-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+.product-images{
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+.product-images img{
+  min-width: 100%;
+  height: 360px;
+  border-radius: 20px;
+  object-fit: cover;
+  display: none;
+}
+.product-images img.active{
+  display: block;
+}
+.image-dots{
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+.image-dots .dot{
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+  cursor: pointer;
+}
+.image-dots .dot.active{
+  background: var(--brand-red);
+}
+.product-body{
+  padding:0.9rem;
+}
+.product-title{ margin:0 0 .4rem 0; font-size:1.05rem }
+.product-price{ color:var(--brand-red); font-weight:800; margin:0 0 .6rem 0 }
+.discount {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.product-actions{ display:flex; gap:0.6rem; }
+.colors , .avl-size {
+  margin: 0 0 .6rem 0;
+}
+.label {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-right: 6px;
+}
+.color-list , .size-list {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--clr);
+  border: 1px solid #666;
+}
+.color[style*="#ffffff"] {
+  border: 1px solid #999;
+}
+.size {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  font-size: 12px;
+  cursor: pointer;
+}
+.size.out {
+  opacity: 0.4;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+.about-section , .contact-section {
+  text-align: center;
+  font-size: large;
+}
+.about-section p {
+  color: darkgoldenrod;
+}
+.about-section p span {
+  font-weight: bold;
+  color: var(--brand-red);
+}
+.contact-section .link {
+  text-decoration: none;
+  color: var(--brand-red);
+  font-weight: bold;
+}
+.contact-section .social {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  font-size: 16px;
+}
+.contact-section .social i {
+  margin-left: 10px;
+  color: var(--secondary-color);
+}
+/* Footer */
+.site-footer {
+  border-top:1px solid var(--glass);
+  padding:1.2rem 0;
+  margin-top:2rem;
+  text-align:center;
+  color:var(--muted);
+}
+.site-footer #logo {
+  font-size: large;
+  font-weight: bold;
+  color: var(--brand-red);
+}
+
+/* ========== Responsive breakpoints ========== */
+/* لو شاشة تلفزيون / عرض كبير */
+@media (min-width: 900px){
+  .products-grid{ grid-template-columns: repeat(3, 1fr); }
+  .hero-inner{ align-items:center }
+}
+
+/* لو شاشة متوسطة */
+@media (min-width: 640px) and (max-width:899px){
+  .products-grid{ grid-template-columns: repeat(2, 1fr); }
+  .hero-media img{ width:360px; }
+}
+
+/* شاشات صغيرة */
+@media (max-width: 639px){
+  .main-nav{ display:none } /* يمكن تبديله بـ hamburger عند الحاجة */
+  .products-grid{ grid-template-columns: 1fr; }
+  .hero-media img{ width:100%; max-width:360px }
+  .brand-logo{ height:80px; }
+}
+/* chef-belly */
