@@ -202,5 +202,47 @@ addCartBtns.forEach(btn => {
     localStorage.setItem('kravaCart', JSON.stringify(cart));
   });
 });
+// swipe mobile pics
+swipe mobile product cards
+document.querySelectorAll('.product-card').forEach(card => {
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
 
+  card.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  });
+
+  card.addEventListener('touchmove', e => {
+    if(!isDragging) return;
+    currentX = e.touches[0].clientX;
+    const diffX = currentX - startX;
+    const imagesContainer = card.querySelector('.product-images');
+    imagesContainer.style.transform = `translateX(${diffX}px)`;
+  });
+
+  card.addEventListener('touchend', e => {
+    isDragging = false;
+    const diffX = currentX - startX;
+    const imagesContainer = card.querySelector('.product-images');
+    if(Math.abs(diffX) > 50){
+      const activeImg = card.querySelector('.product-images img.active');
+      let newIndex = Array.from(card.querySelectorAll('.product-images img')).indexOf(activeImg);
+      if(diffX < 0 && newIndex < card.querySelectorAll('.product-images img').length - 1){
+        newIndex += 1;
+      } else if(diffX > 0 && newIndex > 0){
+        newIndex -= 1;
+      }
+      imagesContainer.style.transform = 'translateX(0)';
+      const dots = card.querySelectorAll('.image-dots .dot');
+      imagesContainer.querySelectorAll('img').forEach(img => img.classList.remove('active'));
+      imagesContainer.querySelectorAll('img')[newIndex].classList.add('active');
+      dots.forEach(d => d.classList.remove('active'));
+      dots[newIndex].classList.add('active');
+    } else {
+      imagesContainer.style.transform = 'translateX(0)';
+    }
+  });
+});
   // chef-belly
