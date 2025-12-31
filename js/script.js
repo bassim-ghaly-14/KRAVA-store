@@ -203,7 +203,7 @@ addCartBtns.forEach(btn => {
   });
 });
 // swipe mobile pics
-swipe mobile product cards
+swipecards
 document.querySelectorAll('.product-card').forEach(card => {
   let startX = 0;
   let currentX = 0;
