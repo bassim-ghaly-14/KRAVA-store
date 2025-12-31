@@ -202,34 +202,5 @@ addCartBtns.forEach(btn => {
     localStorage.setItem('kravaCart', JSON.stringify(cart));
   });
 });
-// swipe mobile slider
-const images = ["game3.jpg", "game3back.jpg", "game4.jpg" , "game4back.jpg"];
-let currentIndex = 0;
 
-const slide = document.getElementById("slide");
-
-let startX = 0;
-let endX = 0;
-
-slide.addEventListener("touchstart", (e) => {
-  startX = e.touches[0].clientX;
-});
-
-slide.addEventListener("touchend", (e) => {
-  endX = e.changedTouches[0].clientX;
-  handleSwipe();
-});
-
-function handleSwipe() {
-  if (startX - endX > 50) {
-    // Swipe Left
-    currentIndex = (currentIndex + 1) % images.length;
-  } else if (endX - startX > 50) {
-    // Swipe Right
-    currentIndex =
-      (currentIndex - 1 + images.length) % images.length;
-  }
-
-  slide.src = images[currentIndex];
-}
   // chef-belly
