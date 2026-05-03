@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderCart(){
     cartItemsContainer.innerHTML = '';
     if(cart.length === 0){
-      cartItemsContainer.innerHTML = '<p>Your cart is empty!</p>';
+      cartItemsContainer.innerHTML = '<img class="cartpng" src="images/logo/cart.PNG"><p><strong>Your cart is empty</strong><br><span>Add items to your cart to get started</span></p><a href="https://krava-store.vercel.app/#hoodies/" class="btn btn-primary shopping">Go Shopping Now</a>';
       cartTotalEl.textContent = '0';
       return;
     }
@@ -34,14 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
         <img src="${item.img}" alt="${item.name}">
         <div class="cart-item-details">
           <div class="cart-item-title">${item.name}</div>
-          <div class="cart-item-price">${item.price} ج.م</div>
+          <div class="cart-item-price">${item.price} EGP</div>
           <div class="cart-item-qty">
-            <button class="decrease" data-idx="${idx}">-</button>
+            <button style="background-color: #e11b23; color: white;" class="decrease" data-idx="${idx}">-</button>
             <span>${item.quantity}</span>
-            <button class="increase" data-idx="${idx}">+</button>
+            <button style="background-color: #e11b23; color: white;" class="increase" data-idx="${idx}">+</button>
           </div>
         </div>
-        <button class="remove" data-idx="${idx}">🗑️</button>
+        <button class="btn btn-primary remove" data-idx="${idx}">Remove</button>
       `;
       cartItemsContainer.appendChild(div);
     });
@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(cart.length > 0 && confirm('Are you sure you want to empty your cart?')){
       cart = [];
       saveCart();
+      clearCartBtn.style.display = "none";
     }
   });
 
@@ -88,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('Your cart is empty!');
       return;
     }
-    let summary = cart.map(i => `${i.name} × ${i.quantity} = ${i.price*i.quantity} ج.م`).join('<br>');
-    summary += `<br><strong>Total: ${cart.reduce((a,b)=>a+b.price*b.quantity,0)} ج.م</strong>`;
+    let summary = cart.map(i => `${i.name} × ${i.quantity} = ${i.price*i.quantity} EGP`).join('<br>');
+    summary += `<br><strong>Total: ${cart.reduce((a,b)=>a+b.price*b.quantity,0)} EGP</strong>`;
     modalContent.innerHTML = summary;
     modalBg.style.display = 'flex';
   });
@@ -101,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cart = [];
     saveCart();
     modalBg.style.display = 'none';
+    clearCartBtn.style.display = "none";
   });
 
   renderCart();

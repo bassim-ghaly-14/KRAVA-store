@@ -5,302 +5,110 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>KRAVA — Hoodies</title>
   <link rel="stylesheet" href="css/master.css" />
-    <!-- Render All Elements Normally -->
-    <link rel="stylesheet" href="css/normalize.css" />
-    <!-- Font Awesome Library -->
-    <link rel="stylesheet" href="css/all.min.css" />
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/all.min.css" />
 </head>
 <body>
-  <!-- أعلى الصفحة: شريط التنقل -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="#">
-        <img src="images/logo/k.PNG" alt="KRAVA Logo" class="brand-logo" />
-      </a>
-      <!-- شريط الأزرار: (قابلة للتوسيع) -->
-      <nav class="main-nav" aria-label="القائمة الرئيسية">
-          <a href="#hoodies">Hoodies</a>
-          <a href="#about">About KRAVA</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      <div class="options">
-      <!-- أدوات الواجهة: وضع الثيم و أيقونة السلة -->
-        <div class="header-actions">
-          <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="تبديل وضع الضوء / الداكن">
-            🌙
+
+<!-- Header -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#">
+      <img src="images/logo/k.PNG" alt="KRAVA Logo" class="brand-logo" />
+    </a>
+
+    <nav class="main-nav" aria-label="Main Navigation">
+      <a href="#hoodies">Hoodies</a>
+      <a href="#about">About KRAVA</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- icons -->
+    <div class="options">
+      <div class="header-actions">
+        <button id="themeToggle" class="theme-toggle" aria-pressed="false">
+          🌙
+        </button>
+        <a href="cart.html">
+          <button class="cart-btn">
+            🛒 <span class="cart-count">0</span>
           </button>
-          <a href="cart.html">
-            <button class="cart-btn" aria-label="سلة التسوق">
-            🛒 <span class="cart-count" aria-hidden="true">0</span>
-          </button>
-          </a>
-        </div>
+        </a>
       </div>
     </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <h1>KRAVA Hoodies</h1>
+      <p class="lead">Hoodies with bold design & high comfort — Carefully crafted for your everyday style.</p>
+      <a href="#hoodies" class="btn btn-primary">Shop Products Now</a>
+    </div>
+
+    <div class="hero-media">
+      <img src="images/models/15.JPG" alt="KRAVA Hoodie" />
+    </div>
+  </div>
+</section>
+
+<!-- Products -->
+<main>
+
+<section id="hoodies" class="products-section container">
+
+  <header class="section-header">
+    <h2>Our Hoodies</h2>
+    <p class="muted">Choose your color & size — Each piece is carefully pictured.</p>
   </header>
 
-  <!-- قسم البطل (Hero) -->
-  <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-text">
-        <h1>KRAVA Hoodies</h1>
-        <p class="lead">Hoodies with bold design & high comfort — Carefully crafted for your everyday style.</p>
-        <a href="#hoodies" class="btn btn-primary">Shop Products Now</a>
-      </div>
-
-      <div class="hero-media">
-        <img src="images/models/15.JPG" alt="KRAVA Hoodie" />
-      </div>
-    </div>
-  </section>
-
-  <!-- قسم المنتجات -->
-  <main>
-    <section id="hoodies" class="products-section container">
-      <header class="section-header">
-        <h2>Our Hoodies</h2>
-        <p class="muted">Choose your color & size — Each piece is carefully pictured.</p>
-      </header>
-
-      <!-- شريط تصفية/فرز بسيط (يمكن توسيعه) -->
-      <div class="filters">
-        <label>
-          Sort:
-          <select id="sortSelect" aria-label="فرز المنتجات">
-            <option value="featured">Latest first</option>
-            <option value="price-asc">Price: lowest first</option>
-            <option value="price-desc">Price: highest first</option>
-          </select>
-        </label>
-      </div>
-
-      <!-- شبكة المنتجات -->
-      <div id="productsGrid" class="products-grid" aria-live="polite">
-        <!-- product 1 -->
-        <article class="product-card" data-price="600" data-name="The Game">
-          <figure class="product-media">
-            <div class="product-images">
-              <img src="images/hoodie/game3.JPG" alt="Hoodie Basic - أسود" class="active">
-              <img src="images/hoodie/game3back.JPG" alt="Hoodie Basic - أسود">
-
-              <img src="images/hoodie/game4.JPG" alt="Hoodie Basic - أسود">
-              <img src="images/hoodie/game4back.JPG" alt="Hoodie Basic - أسود">
-
-              <img src="images/hoodie/game5.JPG" alt="Hoodie Basic - أسود">
-              <img src="images/hoodie/game5back.JPG" alt="Hoodie Basic - أسود">
-
-              <img src="images/hoodie/game1.JPG" alt="Hoodie Basic - أسود">
-              <img src="images/hoodie/game1back.JPG" alt="Hoodie Basic - أسود">
-
-              <img src="images/hoodie/game2.JPG" alt="Hoodie Basic - أسود">
-              <img src="images/hoodie/game2back.JPG" alt="Hoodie Basic - أسود">
-            </div>
-            <div class="image-dots">
-              <span class="dot active"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-            </div>
-          </figure>
-          <div class="product-body">
-            <h3 class="product-title">The Game</h3>
-            <p class="product-price"><span class="discount">750</span> 600 ج.م</p>
-            <!-- colors -->
-            <div class="colors">
-              <span class="label">Colors:</span>
-              <div class="color-list">
-                <span class="color" title="White" style="--clr:#ffffff"></span>
-                <span class="color" title="Gray" style="--clr:#b3b3b3"></span>
-                <span class="color" title="Pink" style="--clr:#ff9acb"></span>
-                <span class="color" title="Baby Blue" style="--clr:#9fd6ff"></span>
-                <span class="color" title="Black" style="--clr:#000000"></span>
-              </div>
-            </div>
-            <!-- available size -->
-            <div class="avl-size">
-              <span class="label">Size:</span>
-              <div class="size-list">
-                <span class="size out">M</span>
-                <span class="size">L</span>
-                <span class="size">XL</span>
-                <span class="size out">2XL</span>
-              </div>
-            </div>
-            <div class="product-actions">
-              <button class="btn btn-outline view-btn" aria-label="معاينة Hoodie Basic - أسود">View</button>
-              <button class="btn btn-primary add-cart" aria-label="أضف Hoodie Basic - أسود للسلة">Add to cart</button>
-            </div>
-          </div>
-        </article>
-        <!-- product 2 -->
-        <article class="product-card" data-price="600" data-name="Periodic Soul">
-          <figure class="product-media">
-            <div class="product-images">
-              <img src="images/hoodie/no4.JPG" alt="Hoodie KRAVA Red" class="active">
-              <img src="images/hoodie/no3.JPG" alt="Hoodie KRAVA Red" >
-              <img src="images/hoodie/no1.JPG" alt="Hoodie KRAVA Red" >
-              <img src="images/hoodie/no5.JPG" alt="Hoodie KRAVA Red" >
-              <img src="images/hoodie/no2.JPG" alt="Hoodie KRAVA Red" >
-            </div>
-            <div class="image-dots">
-              <span class="dot active"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-            </div>
-          </figure>
-          <div class="product-body">
-            <h3 class="product-title">Periodic Soul</h3>
-            <p class="product-price"><span class="discount">750</span> 600 ج.م</p>
-            <!-- colors -->
-            <div class="colors">
-              <span class="label">Colors:</span>
-              <div class="color-list">
-                <span class="color" title="White" style="--clr:#ffffff"></span>
-                <span class="color" title="Gray" style="--clr:#b3b3b3"></span>
-                <span class="color" title="Pink" style="--clr:#ff9acb"></span>
-                <span class="color" title="Baby Blue" style="--clr:#9fd6ff"></span>
-                <span class="color" title="Black" style="--clr:#000000"></span>
-              </div>
-            </div>
-            <!-- available size -->
-            <div class="avl-size">
-              <span class="label">Size:</span>
-              <div class="size-list">
-                <span class="size out">M</span>
-                <span class="size">L</span>
-                <span class="size">XL</span>
-                <span class="size out">2XL</span>
-              </div>
-            </div>
-            <div class="product-actions">
-              <button class="btn btn-outline view-btn">View</button>
-              <button class="btn btn-primary add-cart">Add to cart</button>
-            </div>
-          </div>
-        </article>
-        <!-- product 3 -->
-        <article class="product-card" data-price="750" data-name="World is Mine">
-          <figure class="product-media">
-            <div class="product-images">
-              <img src="images/hoodie/map2.JPG" alt="Hoodie KRAVA Red" class="active">
-              <img src="images/hoodie/map2b.JPG" alt="Hoodie KRAVA Red" />
-              <img src="images/hoodie/map3.JPG" alt="Hoodie KRAVA Red" />
-              <img src="images/hoodie/map3b.JPG" alt="Hoodie KRAVA Red" />
-              <img src="images/hoodie/map5.JPG" alt="Hoodie KRAVA Red" />
-              <img src="images/hoodie/map5b.JPG" alt="Hoodie KRAVA Red" />
-              <img src="images/hoodie/map1.JPG" alt="Hoodie KRAVA Red" />
-              <img src="images/hoodie/map1b.JPG" alt="Hoodie KRAVA Red" />
-              <img src="images/hoodie/map4.JPG" alt="Hoodie KRAVA Red" />
-              <img src="images/hoodie/map4b.JPG" alt="Hoodie KRAVA Red" />
-
-            </div>
-            <div class="image-dots">
-              <span class="dot active"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-            </div>
-          </figure>
-          <div class="product-body">
-            <h3 class="product-title">World is Mine</h3>
-            <p class="product-price">750 ج.م</p>
-            <!-- colors -->
-            <div class="colors">
-              <span class="label">Colors:</span>
-              <div class="color-list">
-                <span class="color" title="White" style="--clr:#ffffff"></span>
-                <span class="color" title="Gray" style="--clr:#b3b3b3"></span>
-                <span class="color" title="Pink" style="--clr:#ff9acb"></span>
-                <span class="color" title="Baby Blue" style="--clr:#9fd6ff"></span>
-                <span class="color" title="Black" style="--clr:#000000"></span>
-              </div>
-            </div>
-            <!-- available size -->
-            <div class="avl-size">
-              <span class="label">Size:</span>
-              <div class="size-list">
-                <span class="size out">M</span>
-                <span class="size">L</span>
-                <span class="size">XL</span>
-                <span class="size out">2XL</span>
-              </div>
-            </div>
-            <div class="product-actions">
-              <button class="btn btn-outline view-btn">View</button>
-              <button class="btn btn-primary add-cart">Add to cart</button>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Hoodies Slider Section -->
-    <section class="hoodies-slider">
-  <div class="slider-wrapper">
-    <button class="nav prev" aria-label="Previous Slide">&#10094;</button>
-    <div class="slider">
-      <div class="slide">
-        <img src="images/models/1.JPG" alt="Hoodie 1" >
-      </div>
-      <div class="slide">
-        <img src="images/models/2.JPG" alt="Hoodie 2" >
-      </div>
-      <div class="slide">
-        <img src="images/models/5.JPG" alt="Hoodie 3" >
-      </div>
-      <div class="slide">
-        <img src="images/models/3.JPG" alt="Hoodie 4" >
-      </div>
-      <div class="slide">
-        <img src="images/models/4.JPG" alt="Hoodie 4" >
-      </div>
-      <div class="slide">
-        <img src="images/models/6.JPG" alt="Hoodie 4" >
-      </div>
-      <div class="slide">
-        <img src="images/models/7.JPG" alt="Hoodie 4" >
-      </div>
-      <div class="slide">
-        <img src="images/models/8.JPG" alt="Hoodie 4" >
-      </div>
-      <div class="slide">
-        <img src="images/models/9.JPG" alt="Hoodie 4" >
-      </div>
-      <div class="slide">
-        <img src="images/models/10.JPG" alt="Hoodie 4" >
-      </div>
-      <div class="slide">
-        <img src="images/models/11.JPG" alt="Hoodie 4" >
-      </div>
-      <div class="slide">
-        <img src="images/models/12.JPG" alt="Hoodie 4" >
-      </div>
-    </div>
-    <button class="nav next" aria-label="Next Slide">&#10095;</button>
+  <div class="filters">
+    <label>
+      Sort:
+      <select id="sortSelect">
+        <option value="featured">Latest first</option>
+        <option value="price-asc">Price: Lowest first</option>
+        <option value="price-desc">Price: Highest first</option>
+      </select>
+    </label>
   </div>
-    </section>
 
-    <!-- قسم معلومات عن البراند -->
+  <!-- EMPTY GRID (JS RENDERED) -->
+  <div id="productsGrid" class="products-grid" aria-live="polite"></div>
+
+</section>
+
+<!-- Slider -->
+<section class="hoodies-slider">
+  <div class="slider-wrapper">
+    <button class="nav prev">&#10094;</button>
+    <div class="slider">
+      <div class="slide"><img src="images/models/1.JPG"></div>
+      <div class="slide"><img src="images/models/2.JPG"></div>
+      <div class="slide"><img src="images/models/5.JPG"></div>
+      <div class="slide"><img src="images/models/3.JPG"></div>
+      <div class="slide"><img src="images/models/4.JPG"></div>
+      <div class="slide"><img src="images/models/6.JPG"></div>
+      <div class="slide"><img src="images/models/7.JPG"></div>
+      <div class="slide"><img src="images/models/8.JPG"></div>
+      <div class="slide"><img src="images/models/9.JPG"></div>
+      <div class="slide"><img src="images/models/10.JPG"></div>
+      <div class="slide"><img src="images/models/11.JPG"></div>
+      <div class="slide"><img src="images/models/12.JPG"></div>
+    </div>
+    <button class="nav next">&#10095;</button>
+  </div>
+</section>
+
+<!-- About -->
     <section id="about" class="about-section container">
       <h2>About us</h2>
       <p><span>KRAVA:</span> A clothing brand specialised in high-quality hoodies, Contemporary design & designed to last.</p>
     </section>
 
-    <!-- تواصل / Footer info -->
+<!-- Contact -->
     <section id="contact" class="contact-section container">
       <h2>Contact us at:</h2>
       <p style="color: darkgoldenrod;">For Requests & Complaints:</p>
@@ -320,16 +128,19 @@
             <i class="fab fa-whatsapp" style="color: #e11b23; font-size: 25px;"> 01559155007</i>
       </div>
     </section>
-  </main>
 
-  <!-- تذييل الصفحة -->
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span><span id="logo"> KRAVA</span> — All Rights Reserved.</p>
-    </div>
-  </footer>
+</main>
 
-  <script src="js/script.js"></script>
+<!-- Footer -->
+<footer class="site-footer">
+  <p>© <span id="year"></span> KRAVA — All Rights Reserved.</p>
+</footer>
+
+<script src="js/script.js"></script>
+<script src="js/update.js"></script>
+<script src="js/products.js"></script>
+<!-- <script type="module" src="js/main.js"></script> -->
+
 </body>
 </html>
-<!-- chef-belly v.01 -->
+<!-- chef-belly v.02 -->
