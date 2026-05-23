@@ -4,143 +4,208 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>KRAVA — Hoodies</title>
-  <link rel="stylesheet" href="css/master.css" />
+
   <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/master.css" />
   <link rel="stylesheet" href="css/all.min.css" />
 </head>
-<body>
 
-<!-- Header -->
+<body data-page="home">
+
+<!-- ================= HEADER ================= -->
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="#">
+
+    <a class="brand" href="index.html">
       <img src="images/logo/k.PNG" alt="KRAVA Logo" class="brand-logo" />
     </a>
 
-    <nav class="main-nav" aria-label="Main Navigation">
+    <nav class="main-nav">
       <a href="#hoodies">Hoodies</a>
-      <a href="#about">About KRAVA</a>
+      <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
 
-    <!-- icons -->
     <div class="options">
       <div class="header-actions">
+
         <button id="themeToggle" class="theme-toggle" aria-pressed="false">
           🌙
         </button>
-        <a href="cart.html">
-          <button class="cart-btn">
-            🛒 <span class="cart-count">0</span>
-          </button>
+
+        <a href="cart.html" class="cart-btn">
+          🛒 <span class="cart-count">0</span>
         </a>
+
       </div>
     </div>
+
   </div>
 </header>
 
-<!-- Hero -->
+<!-- ================= HERO ================= -->
 <section class="hero">
   <div class="container hero-inner">
+
     <div class="hero-text">
       <h1>KRAVA Hoodies</h1>
-      <p class="lead">Hoodies with bold design & high comfort — Carefully crafted for your everyday style.</p>
-      <a href="#hoodies" class="btn btn-primary">Shop Products Now</a>
+      <p class="lead">
+        Premium hoodies with bold identity — built for everyday wear.
+      </p>
+
+      <a href="#hoodies" class="btn btn-primary">
+        Shop Now
+      </a>
     </div>
 
     <div class="hero-media">
       <img src="images/models/15.JPG" alt="KRAVA Hoodie" />
     </div>
+
   </div>
 </section>
 
-<!-- Products -->
+<!-- ================= PRODUCTS ================= -->
 <main>
 
 <section id="hoodies" class="products-section container">
 
-  <header class="section-header">
+  <div class="section-header">
     <h2>Our Hoodies</h2>
-    <p class="muted">Choose your color & size — Each piece is carefully pictured.</p>
-  </header>
+    <p class="muted">Select color, size & explore details</p>
+  </div>
 
+  <!-- SORT (kept but will be handled by store later) -->
   <div class="filters">
     <label>
       Sort:
       <select id="sortSelect">
-        <option value="featured">Latest first</option>
-        <option value="price-asc">Price: Lowest first</option>
-        <option value="price-desc">Price: Highest first</option>
+        <option value="default">Latest</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="name">Name: A-Z</option>
       </select>
     </label>
   </div>
 
-  <!-- EMPTY GRID (JS RENDERED) -->
-  <div id="productsGrid" class="products-grid" aria-live="polite"></div>
+  <!-- JS RENDER TARGET -->
+  <div id="productsGrid" class="products-grid"></div>
 
 </section>
 
-<!-- Slider -->
+<!-- ================= SLIDER ================= -->
 <section class="hoodies-slider">
   <div class="slider-wrapper">
+
     <button class="nav prev">&#10094;</button>
+
     <div class="slider">
       <div class="slide"><img src="images/models/1.JPG"></div>
       <div class="slide"><img src="images/models/2.JPG"></div>
-      <div class="slide"><img src="images/models/5.JPG"></div>
       <div class="slide"><img src="images/models/3.JPG"></div>
       <div class="slide"><img src="images/models/4.JPG"></div>
+      <div class="slide"><img src="images/models/5.JPG"></div>
       <div class="slide"><img src="images/models/6.JPG"></div>
       <div class="slide"><img src="images/models/7.JPG"></div>
       <div class="slide"><img src="images/models/8.JPG"></div>
       <div class="slide"><img src="images/models/9.JPG"></div>
       <div class="slide"><img src="images/models/10.JPG"></div>
-      <div class="slide"><img src="images/models/11.JPG"></div>
-      <div class="slide"><img src="images/models/12.JPG"></div>
     </div>
+
     <button class="nav next">&#10095;</button>
+
   </div>
 </section>
 
-<!-- About -->
-    <section id="about" class="about-section container">
-      <h2>About us</h2>
-      <p><span>KRAVA:</span> A clothing brand specialised in high-quality hoodies, Contemporary design & designed to last.</p>
-    </section>
-
-<!-- Contact -->
-    <section id="contact" class="contact-section container">
-      <h2>Contact us at:</h2>
-      <p style="color: darkgoldenrod;">For Requests & Complaints:</p>
-      <a class="link" href="mailto:krava@gmail.com" style="font-size: 25px;">krava@gmail.com</a>
-      <p style="color: darkgoldenrod;">Find Us On Social Networks:</p>
-      <div class="social-media">
-            <a href="https://www.instagram.com/krava.eg?igsh=MW4xa2dtMzcwMjM4bQ==" target="_blank" aria-label="Instagram" style="text-decoration: none; color: inherit;">
-              <i class="fab fa-instagram" style="color: #e11b23; font-size: 27px; padding: 8px;"></i>
-            </a>
-            <a href="https://www.facebook.com/share/17mqu5ngKa/" target="_blank" aria-label="Facebook" style="text-decoration: none; color: inherit;">
-              <i class="fab fa-facebook-f" style="color: #e11b23; font-size: 27px; padding: 8px;"></i>
-            </a>
-            <a href="https://www.tiktok.com/@krava.eg?_r=1&_t=ZS-92C39uOwBUd" target="_blank" aria-label="Tik-Tok" style="text-decoration: none; color: inherit;">
-              <i class="fab fa-tiktok" style="color: #e11b23; font-size: 27px; padding: 8px;"></i>
-            </a>
-            <br> <br>
-            <i class="fab fa-whatsapp" style="color: #e11b23; font-size: 25px;"> 01559155007</i>
+<!-- ================= ABOUT ================= -->
+<section id="about" class="about-section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-content">
+        <span class="eyebrow">About KRAVA</span>
+        <h2>Built for Identity, Comfort & Bold Design</h2>
+        <p>
+          <span>KRAVA</span> is a streetwear hoodie brand focused on identity, comfort, and bold design. 
+          We craft pieces that speak louder than words, made for people who define their own style.
+        </p>
+        <div class="about-stats">
+          <div class="stat">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">Cotton</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">24/7</span>
+            <span class="stat-label">Support</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">EG</span>
+            <span class="stat-label">Made</span>
+          </div>
+        </div>
       </div>
-    </section>
+      <div class="about-visual">
+        <div class="about-card">
+          <img src="images/models/11.JPG" alt="KRAVA hoodie">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="contact-header">
+      <span class="eyebrow">Get in Touch</span>
+      <h2>Let's Connect</h2>
+      <p>For support, orders, or collaborations. We're here for you.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+        <h3>Email Us</h3>
+        <p>Support & Orders</p>
+        <a class="link" href="mailto:krava@gmail.com">krava@gmail.com</a>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+        <h3>WhatsApp</h3>
+        <p>Fast replies</p>
+        <a class="link" href="https://wa.me/201559155007" target="_blank">01559155007</a>
+      </div>
+
+      <div class="contact-card social-card">
+        <div class="contact-icon"><i class="fas fa-share-alt"></i></div>
+        <h3>Follow Us</h3>
+        <p>Join the community</p>
+        <div class="social-media">
+          <a href="https://www.instagram.com/krava.eg?igsh=MW4xa2dtMzcwMjM4bQ==" target="_blank" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.facebook.com/share/17mqu5ngKa/" target="_blank" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.tiktok.com/@krava.eg?_r=1&_t=ZS-92C39uOwBUd" target="_blank" aria-label="TikTok">
+            <i class="fab fa-tiktok"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 </main>
 
-<!-- Footer -->
+<!-- ================= FOOTER ================= -->
 <footer class="site-footer">
   <p>© <span id="year"></span> KRAVA — All Rights Reserved.</p>
 </footer>
 
-<script src="js/script.js"></script>
-<script src="js/update.js"></script>
-<script src="js/products.js"></script>
-<!-- <script type="module" src="js/main.js"></script> -->
+<!-- ================= APP ENTRY ================= -->
+<script type="module" src="js/app.js"></script>
 
 </body>
 </html>
-<!-- chef-belly v.02 -->
+<!-- chef-belly  -->

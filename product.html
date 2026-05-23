@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KRAVA — Product</title>
+
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/master.css" />
+</head>
+
+<body data-page="product">
+
+<!-- ================= HEADER ================= -->
+<header class="site-header">
+  <div class="container header-inner">
+
+    <a class="brand" href="index.html">
+      <img src="images/logo/k.PNG" class="brand-logo" />
+    </a>
+
+    <div class="options">
+
+      <button id="themeToggle" class="theme-toggle" aria-pressed="false">
+        🌙
+      </button>
+      <a href="cart.html" class="cart-btn">
+        🛒 <span class="cart-count">0</span>
+      </a>
+    </div>
+
+  </div>
+</header>
+
+<!-- ================= PRODUCT ================= -->
+<main class="container product-page">
+
+  <div id="productContainer"></div>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <p>© <span id="year"></span> KRAVA — All Rights Reserved.</p>
+</footer>
+
+<!-- ================= APP ================= -->
+<script type="module">
+import { initTheme, bindThemeToggle } from "./js/modules/theme.js";
+import { PRODUCTS } from "./js/products.js";
+import { addItemToCart, buyNow ,getState, subscribe } from "./js/core/store.js";
+import { openCheckout } from "./js/modules/checkout.js";
+
+initTheme();
+bindThemeToggle(document.getElementById("themeToggle"));
+/* =========================
+   GET PRODUCT ID
+========================= */
+const params = new URLSearchParams(window.location.search);
+const productId = params.get("id");
+
+const product = PRODUCTS.find(p => p.id === productId);
+
+const container = document.getElementById("productContainer");
+
+/* =========================
+   RENDER PRODUCT PAGE
+========================= */
+
+function render() {
+
+  if (!product) {
+    container.innerHTML = "<h2>Product not found</h2>";
+    return;
+  }
+
+  const first = product.colors[0];
+
+  container.innerHTML = `
+    <div class="product-detail">
+
+      <!-- IMAGE -->
+      <div class="gallery">
+        <img id="mainImage" src="images/hoodie/${first.images[0]}" />
+      </div>
+
+      <!-- INFO -->
+      <div class="info">
+
+        <h1>${product.name}</h1>
+
+        <p class="price">
+          ${product.price} EGP
+        </p>
+
+        <!-- COLORS -->
+        <span class="muted">COLORS:</span>
+        <div class="colors">
+          ${product.colors.map((c, i) => `
+            <span class="color ${i===0?'active':''}"
+              data-index="${i}"
+              style="--clr:${c.hex}">
+            </span>
+          `).join("")}
+        </div>
+
+        <!-- SIZES -->
+        <span class="muted">SIZES:</span>
+        <div class="sizes">
+          ${product.sizes.map((s,i)=>`
+            <span class="size ${i===0?'active':''}">${s}</span>
+          `).join("")}
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+
+          <button id="addToCart" class="btn btn-primary">
+            Add to Cart
+          </button>
+
+          <button id="buyNow" class="btn btn-outline">
+            Buy Now
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+}
+
+render();
+
+/* =========================
+   STATE
+========================= */
+let selectedColor = 0;
+let selectedSize = product?.sizes?.[0];
+
+/* =========================
+   EVENTS
+========================= */
+
+container.addEventListener("click", (e) => {
+
+  /* COLORS */
+  if (e.target.classList.contains("color")) {
+
+    selectedColor = Number(e.target.dataset.index);
+
+    document.querySelectorAll(".color")
+      .forEach(c => c.classList.remove("active"));
+
+    e.target.classList.add("active");
+
+    const img = product.colors[selectedColor].images[0];
+    document.getElementById("mainImage").src =
+      `images/hoodie/${img}`;
+  }
+
+  /* SIZE */
+  if (e.target.classList.contains("size")) {
+
+    selectedSize = e.target.textContent;
+
+    document.querySelectorAll(".size")
+      .forEach(s => s.classList.remove("active"));
+
+    e.target.classList.add("active");
+  }
+
+  /* ADD TO CART */
+  if (e.target.id === "addToCart") {
+
+    const color = product.colors[selectedColor];
+
+    addItemToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      color: color.name,
+      size: selectedSize,
+      img: color.images[0]
+    });
+
+    e.target.textContent = "Added ✓";
+
+    setTimeout(() => {
+      e.target.textContent = "Add to Cart";
+    }, 1000);
+  }
+
+  /* BUY NOW */
+  if (e.target.id === "buyNow") {
+
+    const color = product.colors[selectedColor];
+
+    buyNow({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      color: color.name,
+      size: selectedSize,
+      img: color.images[0]
+    });
+
+    openCheckout();
+  }
+
+});
+
+/* =========================
+   CART COUNT SYNC
+========================= */
+
+function updateCartCount() {
+  const state = getState();
+  const count = state.cart.reduce((s,i)=>s+i.quantity,0);
+
+  document.querySelectorAll(".cart-count")
+    .forEach(el => el.textContent = count);
+}
+
+updateCartCount();
+subscribe(updateCartCount);
+</script>
+
+</body>
+</html>
