@@ -111,7 +111,7 @@ function placeOrder() {
 
   if (!isValid) {
     displayErrors(errors);
-    showToast("Please fix the errors below", "error");
+    showToast("Please fill your information to complete the order", "error");
     return;
   }
 
