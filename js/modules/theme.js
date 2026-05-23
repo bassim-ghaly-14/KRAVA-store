@@ -4,6 +4,8 @@
 
 const KEY = "krava-theme";
 
+let toggleBtn = null;
+
 /* =========================
    INIT THEME
 ========================= */
@@ -17,6 +19,17 @@ export function initTheme() {
 ========================= */
 function apply(theme) {
   document.documentElement.setAttribute("data-theme", theme);
+  updateToggleIcon(theme);
+}
+
+/* =========================
+   UPDATE ICON ONLY
+========================= */
+function updateToggleIcon(theme) {
+  if (!toggleBtn) return;
+
+  // change ONLY icon inside button
+  toggleBtn.textContent = theme === "dark" ? "☀" : "☾";
 }
 
 /* =========================
@@ -35,6 +48,12 @@ export function toggleTheme() {
 ========================= */
 export function bindThemeToggle(btn) {
   if (!btn) return;
+
+  toggleBtn = btn;
+
+  // set initial icon correctly
+  const theme = localStorage.getItem(KEY) || "light";
+  updateToggleIcon(theme);
 
   btn.addEventListener("click", () => {
     toggleTheme();

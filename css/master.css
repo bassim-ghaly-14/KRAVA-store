@@ -103,6 +103,7 @@ margin-inline-start:auto;
 .theme-toggle, .cart-btn{
   border:1px solid var(--glass);
   background:var(--card-bg);
+  color:var(--brand-red);
   font-size: large;
   padding:0.35rem 0.6rem;
   border-radius:10px;
