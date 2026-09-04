@@ -18,7 +18,7 @@ export function initTheme() {
    APPLY THEME
 ========================= */
 function apply(theme) {
-  document.documentElement.setAttribute("data-theme", theme);
+  document.documentElement.dataset.theme = theme;
   updateToggleIcon(theme);
 }
 

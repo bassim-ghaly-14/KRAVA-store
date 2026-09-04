@@ -12,77 +12,111 @@ import { showToast } from "../core/toast.js";
 ========================= */
 
 export function renderProducts(container, sortBy = "default") {
-  let products = [...PRODUCTS];
+  const products = getSortedProducts(sortBy);
+
+  container.innerHTML = products.map(product => {
+    const firstColor = product.colors[0];
+    const defaultAvailableSize =
+      product.sizes.find(s => (firstColor.stock[s] || 0) > 0) ||
+      product.sizes[0];
+
+    return createProductCard(product, firstColor, defaultAvailableSize);
+  }).join("");
+}
+
+function getSortedProducts(sortBy) {
+  const products = [...PRODUCTS];
 
   if (sortBy === "price-low") {
     products.sort((a, b) => a.price - b.price);
   }
+
   if (sortBy === "price-high") {
     products.sort((a, b) => b.price - a.price);
   }
+
   if (sortBy === "name") {
     products.sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  container.innerHTML = products.map(product => {
-    const firstColor = product.colors[0];
-    
-    // Find first available size in stock for the default color, fallback to first index
-    const defaultAvailableSize = product.sizes.find(s => (firstColor.stock[s] || 0) > 0) || product.sizes[0];
+  return products;
+}
+
+function createProductCard(product, firstColor, defaultAvailableSize) {
+  return `
+    <article class="product-card" data-id="${product.id}">
+      <div class="product-media">
+        <div class="product-images">
+          ${renderImages(firstColor.images)}
+        </div>
+
+        <div class="image-dots">
+          ${renderDots(firstColor.images)}
+        </div>
+      </div>
+
+      <div class="product-body">
+        <h3 class="product-title">${product.name}</h3>
+
+        <p class="product-price">
+          ${product.oldPrice ? `<span class="discount">${product.oldPrice}</span>` : ""}
+          ${product.price} EGP
+        </p>
+
+        <div class="colors">
+          ${renderColors(product.colors)}
+        </div>
+
+        <div class="sizes">
+          ${renderSizes(product.sizes, firstColor.stock, defaultAvailableSize)}
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary add-cart">Add to Cart</button>
+          <button class="btn btn-outline buy-now">Buy Now</button>
+          <button class="btn btn-outline view-product">View</button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function renderImages(images) {
+  return images.map((img, index) => `
+    <img src="${img}" class="${index === 0 ? "active" : ""}">
+  `).join("");
+}
+
+function renderDots(images) {
+  return images.map((_, index) => `
+    <span
+      class="dot ${index === 0 ? "active" : ""}"
+      data-index="${index}">
+    </span>
+  `).join("");
+}
+
+function renderColors(colors) {
+  return colors.map((color, index) => `
+    <span
+      class="color ${index === 0 ? "active" : ""}"
+      data-color="${index}"
+      style="--clr:${color.hex}">
+    </span>
+  `).join("");
+}
+
+function renderSizes(sizes, stock, activeSize) {
+  return sizes.map(size => {
+    const isOut = (stock[size] || 0) === 0;
+    const isActive = size === activeSize;
 
     return `
-      <article class="product-card" data-id="${product.id}">
-        <div class="product-media">
-          <div class="product-images">
-            ${firstColor.images.map((img, i) => `
-              <img src="${img}" class="${i === 0 ? "active" : ""}">
-            `).join("")}
-          </div>
-
-          <div class="image-dots">
-            ${firstColor.images.map((_, i) => `
-              <span class="dot ${i === 0 ? "active" : ""}" data-index="${i}"></span>
-            `).join("")}
-          </div>
-        </div>
-
-        <div class="product-body">
-          <h3 class="product-title">${product.name}</h3>
-
-          <p class="product-price">
-            ${product.oldPrice ? `<span class="discount">${product.oldPrice}</span>` : ""}
-            ${product.price} EGP
-          </p>
-
-          <div class="colors">
-            ${product.colors.map((c, i) => `
-              <span class="color ${i === 0 ? "active" : ""}"
-                data-color="${i}"
-                style="--clr:${c.hex}">
-              </span>
-            `).join("")}
-          </div>
-
-          <div class="sizes">
-            ${product.sizes.map(s => {
-              const isOut = (firstColor.stock[s] || 0) === 0;
-              const isActive = s === defaultAvailableSize;
-              return `
-                <span class="size ${isActive ? "active" : ""} ${isOut ? "disabled-stock-out" : ""}"
-                      data-size="${s}">
-                  ${s}
-                </span>
-              `;
-            }).join("")}
-          </div>
-
-          <div class="actions">
-            <button class="btn btn-primary add-cart">Add to Cart</button>
-            <button class="btn btn-outline buy-now">Buy Now</button>
-            <button class="btn btn-outline view-product">View</button>
-          </div>
-        </div>
-      </article>
+      <span
+        class="size ${isActive ? "active" : ""} ${isOut ? "disabled-stock-out" : ""}"
+        data-size="${size}">
+        ${size}
+      </span>
     `;
   }).join("");
 }
@@ -92,152 +126,233 @@ export function renderProducts(container, sortBy = "default") {
 ========================= */
 
 export function initProductInteractions(container) {
-  container.addEventListener("click", (e) => {
-    const card = e.target.closest(".product-card");
-    if (!card) return;
+  container.addEventListener("click", handleProductClick);
+}
 
-    const id = card.dataset.id;
-    const product = PRODUCTS.find(p => p.id === id);
+function handleProductClick(e) {
+  const card = e.target.closest(".product-card");
 
-    // Helper closure to obtain selected state variables live from the current DOM element card
-    const getActiveSelection = () => {
-      const colorIndex = Number(card.querySelector(".color.active")?.dataset.color || 0);
-      const size = card.querySelector(".size.active")?.dataset.size || product.sizes[0];
-      const colorObj = product.colors[colorIndex];
-      return { colorIndex, size, colorObj };
-    };
+  if (!card) return;
 
-    /* ADD TO CART */
-    if (e.target.classList.contains("add-cart")) {
-      const { size, colorObj } = getActiveSelection();
+  const product = PRODUCTS.find(p => p.id === card.dataset.id);
 
-      if ((colorObj.stock[size] || 0) === 0) {
-        showToast("This variation is out of stock.");
-        return;
-      }
+  if (!product) return;
 
-      addItemToCart({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        color: colorObj.name,
-        size,
-        img: colorObj.images[0]
-      });
+  if (e.target.classList.contains("add-cart")) {
+    handleAddToCart(e.target, card, product);
+    return;
+  }
 
-      feedback(e.target, "Added ✓");
-    }
+  if (e.target.classList.contains("buy-now")) {
+    handleBuyNow(card, product);
+    return;
+  }
 
-    /* BUY NOW (DIRECT ROUTE) */
-    if (e.target.classList.contains("buy-now")) {
-      const { size, colorObj } = getActiveSelection();
+  if (e.target.classList.contains("view-product")) {
+    handleViewProduct(card, product);
+    return;
+  }
 
-      if ((colorObj.stock[size] || 0) === 0) {
-        showToast("This variation is out of stock.");
-        return;
-      }
+  if (e.target.classList.contains("color")) {
+    handleColorChange(e.target, card, product);
+    return;
+  }
 
-      buyNow({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        color: colorObj.name,
-        size,
-        img: colorObj.images[0]
-      });
+  if (e.target.classList.contains("size")) {
+    handleSizeChange(e.target, card);
+    return;
+  }
 
-      openCheckout();
-    }
+  if (e.target.classList.contains("dot")) {
+    handleGalleryChange(e.target, card);
+  }
+}
 
-    /* VIEW DETAILS (WITH PERSISTED STATE PARAMS) */
-    if (e.target.classList.contains("view-product")) {
-      const { size, colorObj } = getActiveSelection();
-      window.location.href = `product.html?id=${product.id}&color=${colorObj.name}&size=${size}`;
-    }
+/* =========================
+   PRODUCT SELECTION
+========================= */
 
-    /* COLOR SELECTOR CHANGES WITH SIZE STOCK CONSTRAINTS MAPS */
-    if (e.target.classList.contains("color")) {
-      const colorIndex = Number(e.target.dataset.color);
-      const colors = card.querySelectorAll(".color");
-      colors.forEach(c => c.classList.remove("active"));
-      e.target.classList.add("active");
+function getActiveSelection(card, product) {
+  const colorIndex = Number(
+    card.querySelector(".color.active")?.dataset.color || 0
+  );
 
-      const targetColorObj = product.colors[colorIndex];
-      
-      // Update Images viewports node
-      const imgContainer = card.querySelector(".product-images");
-      imgContainer.innerHTML = targetColorObj.images.map((img, i) => `
-        <img src="${img}" class="${i === 0 ? "active" : ""}">
-      `).join("");
+  const size =
+    card.querySelector(".size.active")?.dataset.size ||
+    product.sizes[0];
 
-      // Re-render dots
-      const dotsContainer = card.querySelector(".image-dots");
-      if (dotsContainer) {
-        dotsContainer.innerHTML = targetColorObj.images.map((_, i) => `
-          <span class="dot ${i === 0 ? "active" : ""}" data-index="${i}"></span>
-        `).join("");
-      }
+  const colorObj = product.colors[colorIndex];
 
-      // Readjust sizes stock presentation for this color dynamically
-      let currentActiveSize = card.querySelector(".size.active")?.dataset.size;
-      const sizesContainer = card.querySelector(".sizes");
-      
-      // Fallback if current active size becomes invalid on new color variant bounds
-      if ((targetColorObj.stock[currentActiveSize] || 0) === 0) {
-        currentActiveSize = product.sizes.find(s => (targetColorObj.stock[s] || 0) > 0) || product.sizes[0];
-      }
+  return {
+    colorIndex,
+    size,
+    colorObj
+  };
+}
 
-      sizesContainer.innerHTML = product.sizes.map(s => {
-        const isOut = (targetColorObj.stock[s] || 0) === 0;
-        const isActive = s === currentActiveSize;
-        return `
-          <span class="size ${isActive ? "active" : ""} ${isOut ? "disabled-stock-out" : ""}"
-                data-size="${s}">
-            ${s}
-          </span>
-        `;
-      }).join("");
-    }
+/* =========================
+   CART ACTIONS
+========================= */
 
-    /* SIZE SELECTOR TOGGLES WITH BLOCKERS */
-    if (e.target.classList.contains("size")) {
-      if (e.target.classList.contains("disabled-stock-out")) {
-        showToast("Selected size variant is unavailable for this color option.");
-        return;
-      }
-      const sizes = card.querySelectorAll(".size");
-      sizes.forEach(s => s.classList.remove("active"));
-      e.target.classList.add("active");
-    }
+function handleAddToCart(button, card, product) {
+  const { size, colorObj } = getActiveSelection(card, product);
 
-    /* GALLERY DOT SLIDER MAPS */
-    if (e.target.classList.contains("dot")) {
-      const index = Number(e.target.dataset.index);
-      const imgs = card.querySelectorAll(".product-images img");
-      const dots = card.querySelectorAll(".dot");
+  if (!isVariationAvailable(colorObj, size)) {
+    showToast("This variation is out of stock.");
+    return;
+  }
 
-      if (!imgs[index]) return;
+  addItemToCart(createCartItem(product, colorObj, size));
 
-      imgs.forEach(i => i.classList.remove("active"));
-      dots.forEach(d => d.classList.remove("active"));
+  feedback(button, "Added ✓");
+}
 
-      imgs[index].classList.add("active");
-      e.target.classList.add("active");
-    }
-  });
+function handleBuyNow(card, product) {
+  const { size, colorObj } = getActiveSelection(card, product);
+
+  if (!isVariationAvailable(colorObj, size)) {
+    showToast("This variation is out of stock.");
+    return;
+  }
+
+  buyNow(createCartItem(product, colorObj, size));
+  openCheckout();
+}
+
+function createCartItem(product, colorObj, size) {
+  return {
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    color: colorObj.name,
+    size,
+    img: colorObj.images[0]
+  };
+}
+
+function isVariationAvailable(colorObj, size) {
+  return (colorObj.stock[size] || 0) > 0;
+}
+
+/* =========================
+   VIEW PRODUCT
+========================= */
+
+function handleViewProduct(card, product) {
+  const { size, colorObj } = getActiveSelection(card, product);
+
+  window.location.href =
+    `product.html?id=${product.id}&color=${colorObj.name}&size=${size}`;
+}
+
+/* =========================
+   COLOR SELECTOR
+========================= */
+
+function handleColorChange(target, card, product) {
+  const colorIndex = Number(target.dataset.color);
+  const targetColor = product.colors[colorIndex];
+
+  updateActiveColor(card, target);
+  updateProductImages(card, targetColor.images);
+  updateGalleryDots(card, targetColor.images);
+  updateProductSizes(card, product, targetColor);
+}
+
+function updateActiveColor(card, target) {
+  const colors = card.querySelectorAll(".color");
+
+  colors.forEach(color => color.classList.remove("active"));
+  target.classList.add("active");
+}
+
+function updateProductImages(card, images) {
+  const container = card.querySelector(".product-images");
+
+  container.innerHTML = renderImages(images);
+}
+
+function updateGalleryDots(card, images) {
+  const container = card.querySelector(".image-dots");
+
+  if (!container) return;
+
+  container.innerHTML = renderDots(images);
+}
+
+function updateProductSizes(card, product, colorObj) {
+  const sizesContainer = card.querySelector(".sizes");
+  let activeSize = card.querySelector(".size.active")?.dataset.size;
+
+  activeSize = getAvailableSize(
+    product.sizes,
+    colorObj.stock,
+    activeSize
+  );
+
+  sizesContainer.innerHTML = renderSizes(
+    product.sizes,
+    colorObj.stock,
+    activeSize
+  );
+}
+
+function getAvailableSize(sizes, stock, currentSize) {
+  if ((stock[currentSize] || 0) > 0) {
+    return currentSize;
+  }
+
+  return sizes.find(size => (stock[size] || 0) > 0) || sizes[0];
+}
+
+/* =========================
+   SIZE SELECTOR
+========================= */
+
+function handleSizeChange(target, card) {
+  if (target.classList.contains("disabled-stock-out")) {
+    showToast(
+      "Selected size variant is unavailable for this color option."
+    );
+    return;
+  }
+
+  const sizes = card.querySelectorAll(".size");
+
+  sizes.forEach(size => size.classList.remove("active"));
+  target.classList.add("active");
+}
+
+/* =========================
+   GALLERY
+========================= */
+
+function handleGalleryChange(target, card) {
+  const index = Number(target.dataset.index);
+  const images = card.querySelectorAll(".product-images img");
+  const dots = card.querySelectorAll(".dot");
+
+  if (!images[index]) return;
+
+  images.forEach(image => image.classList.remove("active"));
+  dots.forEach(dot => dot.classList.remove("active"));
+
+  images[index].classList.add("active");
+  target.classList.add("active");
 }
 
 /* =========================
    SMALL UI FEEDBACK
 ========================= */
 
-function feedback(btn, text) {
-  const old = btn.textContent;
-  btn.textContent = text;
-  btn.disabled = true;
+function feedback(button, text) {
+  const oldText = button.textContent;
+
+  button.textContent = text;
+  button.disabled = true;
 
   setTimeout(() => {
-    btn.textContent = old;
-    btn.disabled = false;
+    button.textContent = oldText;
+    button.disabled = false;
   }, 900);
 }
