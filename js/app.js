@@ -1,74 +1,44 @@
 /* =========================
    KRAVA APP BOOTSTRAP
+   (single entry point for all pages)
 ========================= */
 
-import { initTheme, bindThemeToggle } from "./modules/theme.js";
+import { initLayout } from "./core/layout.js";
 import { initSlider } from "./modules/slider.js";
 import { renderProducts, initProductInteractions } from "./modules/ui.js";
+import { initProductPage } from "./modules/product-page.js";
+import { initCartPage } from "./modules/cart-page.js";
 
-import { subscribe, getState } from "./core/store.js";
-import { initCheckout } from "./modules/checkout.js";
+const page = document.body.dataset.page || "home";
 
-/* =========================
-   DOM READY
-========================= */
-document.addEventListener("DOMContentLoaded", () => {
+/* Shared header / footer / theme / cart badge / checkout bootstrapping */
+initLayout(page);
 
-  const page = document.body.dataset.page;
+/* PAGE LOGIC */
+switch (page) {
 
-  /* =========================
-     THEME
-  ========================= */
-  initTheme();
-  bindThemeToggle(document.querySelector(".theme-toggle"));
+  case "home": {
+    const grid = document.getElementById("productsGrid");
 
-  /* =========================
-     CART COUNT (GLOBAL SYNC)
-  ========================= */
-  function updateCartCount(state = getState()) {
-    const count = state.cart.reduce((s, i) => s + i.quantity, 0);
+    if (grid) {
+      renderProducts(grid);
+      initProductInteractions(grid);
 
-    document.querySelectorAll(".cart-count")
-      .forEach(el => el.textContent = count);
+      const sortSelect = document.getElementById("sortSelect");
+      sortSelect?.addEventListener("change", (e) => {
+        renderProducts(grid, e.target.value);
+      });
+    }
+
+    initSlider();
+    break;
   }
 
-  updateCartCount();
-  subscribe(updateCartCount);
+  case "product":
+    initProductPage();
+    break;
 
-    document.getElementById("sortSelect").addEventListener("change", (e) => {
-    renderProducts(document.getElementById("productsGrid"), e.target.value);
-  });
-
-  /* =========================
-     PAGE LOGIC
-  ========================= */
-
-  switch (page) {
-
-    case "home": {
-      const grid = document.getElementById("productsGrid");
-
-      if (grid) {
-        renderProducts(grid);
-        initProductInteractions(grid);
-      }
-
-      initSlider();
-      break;
-    }
-
-    case "product": {
-      // product page handles itself (inline script)
-      break;
-    }
-
-    case "cart": {
-      initCheckout();
-      break;
-    }
-
-    default:
-      break;
-  }
-
-});
+  case "cart":
+    initCartPage();
+    break;
+}

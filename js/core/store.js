@@ -4,9 +4,6 @@
 
 const STORAGE_KEY = "krava-store";
 
-/* =========================
-   INITIAL STATE
-========================= */
 const defaultState = {
   cart: [],
   coupon: null,
@@ -15,9 +12,6 @@ const defaultState = {
 
 let state = loadState();
 
-/* =========================
-   SUBSCRIBERS SYSTEM (REACTIVE)
-========================= */
 const listeners = new Set();
 
 export function subscribe(callback) {
@@ -30,9 +24,6 @@ function notify() {
   listeners.forEach(cb => cb(state));
 }
 
-/* =========================
-   STATE ACCESS
-========================= */
 export function getState() {
   return state;
 }
@@ -56,21 +47,22 @@ export function addItemToCart(item) {
     } else {
       prev.cart.push({
         key,
-       ...item,
+        ...item,
         quantity: 1
       });
     }
 
-    return {...prev };
+    return { ...prev };
   });
 }
 
+// Upgraded to handle instantaneous direct checkout routine safely
 export function buyNow(item) {
   setState(prev => ({
-   ...prev,
+    ...prev,
     cart: [{
       key: `${item.id}-${item.color}-${item.size}`,
-     ...item,
+      ...item,
       quantity: 1
     }]
   }));
@@ -78,8 +70,8 @@ export function buyNow(item) {
 
 export function removeItem(key) {
   setState(prev => ({
-   ...prev,
-    cart: prev.cart.filter(i => i.key!== key)
+    ...prev,
+    cart: prev.cart.filter(i => i.key !== key)
   }));
 }
 
@@ -91,16 +83,16 @@ export function updateQty(key, delta) {
     item.quantity += delta;
 
     if (item.quantity <= 0) {
-      prev.cart = prev.cart.filter(i => i.key!== key);
+      prev.cart = prev.cart.filter(i => i.key !== key);
     }
 
-    return {...prev };
+    return { ...prev };
   });
 }
 
 export function clearCart() {
   setState(prev => ({
-   ...prev,
+    ...prev,
     cart: []
   }));
 }
@@ -111,7 +103,7 @@ export function clearCart() {
 
 export function setCoupon(coupon) {
   setState(prev => ({
-   ...prev,
+    ...prev,
     coupon
   }));
 }
@@ -122,7 +114,7 @@ export function setCoupon(coupon) {
 
 export function setTheme(theme) {
   setState(prev => ({
-   ...prev,
+    ...prev,
     theme
   }));
 }
@@ -150,6 +142,18 @@ function saveState() {
 }
 
 function loadState() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  return saved? JSON.parse(saved) : defaultState;
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return { ...defaultState };
+
+    const parsed = JSON.parse(saved);
+    return {
+      ...defaultState,
+      ...parsed,
+      cart: Array.isArray(parsed.cart) ? parsed.cart : []
+    };
+  } catch (error) {
+    console.error("[KRAVA STORE] Could not restore saved state, using defaults.", error);
+    return { ...defaultState };
+  }
 }

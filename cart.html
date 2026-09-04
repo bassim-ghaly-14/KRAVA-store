@@ -7,163 +7,24 @@
 
   <link rel="stylesheet" href="css/normalize.css" />
   <link rel="stylesheet" href="css/master.css" />
-
-  <style>
-   .qty-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-   .btn-remove {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 18px;
-    }
-   .applied-coupon {
-      padding: 10px;
-      background: var(--bg-secondary);
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-  </style>
 </head>
 
 <body data-page="cart">
-
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="index.html">
-      <img src="images/logo/k.PNG" alt="KRAVA Logo" class="brand-logo" />
-    </a>
-
-    <div class="options">
-      <div class="header-actions">
-        <button id="themeToggle" class="theme-toggle" aria-pressed="false">🌙</button>
-      </div>
-    </div>
-  </div>
-</header>
 
 <main class="container cart-page">
   <h1>Cart</h1>
 
   <div id="cartItems"></div>
 
-  <button style="width: fit-content;" class="btn" id="EmptyBtn">Empty Cart</button>
+  <button class="btn btn-outline" id="EmptyBtn">Empty Cart</button>
 
   <div class="cart-summary">
     <div id="summary"></div>
-    <div class="coupon-box">
-      <input id="couponInput" placeholder="Coupon Code" />
-      <button id="applyCouponBtn">Apply</button>
-      <p id="couponMsg"></p>
-    </div>
     <button id="checkoutBtn" class="btn btn-primary">Checkout</button>
   </div>
 </main>
 
-<footer class="site-footer">
-  <p>© <span id="year"></span> KRAVA — All Rights Reserved.</p>
-</footer>
+<script type="module" src="js/app.js"></script>
 
-<script type="module">
-import { initTheme, bindThemeToggle } from "./js/modules/theme.js";
-import {
-  getState, subscribe, updateQty, removeItem,
-  getCartTotal, getCartCount, clearCart
-} from "./js/core/store.js";
-import { applyCoupon, calculateDiscount, getFinalTotal } from "./js/modules/coupons.js";
-import { initCheckout, openCheckout } from "./js/modules/checkout.js";
-
-initTheme();
-bindThemeToggle(document.getElementById("themeToggle"));
-initCheckout();
-
-const cartItems = document.getElementById("cartItems");
-const summary = document.getElementById("summary");
-const emptyBtn = document.getElementById("EmptyBtn");
-const cartSummary = document.querySelector(".cart-summary");
-const couponInput = document.getElementById("couponInput");
-const applyCouponBtn = document.getElementById("applyCouponBtn");
-const couponMsg = document.getElementById("couponMsg");
-
-function render() {
-  const state = getState();
-  
-  emptyBtn.style.display = state.cart.length ? "block" : "none";
-  cartSummary.style.display = state.cart.length ? "block" : "none";
-
-  if (!state.cart.length) {
-     cartItems.innerHTML = `<h2 style="margin-block-end: 0;">Empty Cart</h2> 
-                            <p style="text-align: center;">You have no items in your cart</p> 
-                            <img style="width:350px;" src="images/logo/cart.PNG"> `;
-    summary.innerHTML = "";
-    return;
-  }
-
-  cartItems.innerHTML = state.cart.map(item => `
-    <div class="cart-item">
-      <img src="images/hoodie/${item.img}" />
-
-      <div class="cart-info">
-        <h3>${item.name}</h3>
-        <p>${item.color} | ${item.size}</p>
-        <p>${item.price} EGP</p>
-      </div>
-
-      <div class="qty-controls">
-        <div class="qty">
-          <button data-action="minus" data-key="${item.key}">-</button>
-          <span>${item.quantity}</span>
-          <button data-action="plus" data-key="${item.key}">+</button>
-        </div>
-        <button class="btn-remove" data-remove="${item.key}">
-          <img src="https://www.svgrepo.com/show/494009/delete.svg" alt="Remove" />
-        </button>
-      </div>
-    </div>
-  `).join("");
-
-  const total = getCartTotal();
-  const discount = calculateDiscount(total);
-  const final = getFinalTotal(total);
-
-  summary.innerHTML = `
-    <p>Subtotal: ${total} EGP</p>
-    <p>Discount: -${discount} EGP</p>
-    <h2>Total: ${final} EGP</h2>
-  `;
-
-  if (state.coupon) {
-    couponInput.value = state.coupon.code;
-    couponMsg.textContent = `Coupon ${state.coupon.code.toUpperCase()} applied - ${state.coupon.value}% OFF`;
-    couponMsg.style.color = "green";
-  } else {
-    couponMsg.textContent = "";
-  }
-}
-
-render();
-subscribe(render);
-
-/* EVENTS */
-cartItems.addEventListener("click", (e) => {
-  const key = e.target.dataset.key || e.target.dataset.remove;
-  if (e.target.dataset.action === "plus") updateQty(key, 1);
-  if (e.target.dataset.action === "minus") updateQty(key, -1);
-  if (e.target.dataset.remove) removeItem(key);
-});
-
-emptyBtn.addEventListener("click", () => clearCart());
-
-applyCouponBtn.addEventListener("click", () => {
-  const res = applyCoupon(couponInput.value);
-  couponMsg.textContent = res.message;
-  couponMsg.style.color = res.success ? "green" : "red";
-});
-
-document.getElementById("checkoutBtn").addEventListener("click", () => openCheckout());
-
-document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+</body>
+</html>
