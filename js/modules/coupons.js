@@ -1,5 +1,5 @@
 /* =========================
-   KRAVA COUPON ENGINE
+   KRAVA COUPON ENGINE (MAINTAINED)
 ========================= */
 
 import { setCoupon, getState } from "../core/store.js";
