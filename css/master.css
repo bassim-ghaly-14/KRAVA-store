@@ -211,14 +211,13 @@ select {
   gap: 20px;
 }
 .slide {
+  flex: 0 0 80%;
   max-width: 700px;
-  flex-shrink: 0;
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   cursor: grab;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  flex: 0 0 80%;
 }
 .slide:hover {
   transform: scale(1.05);
