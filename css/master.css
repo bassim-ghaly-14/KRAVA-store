@@ -334,15 +334,10 @@ select {
   font-size: 0.85rem;
   padding: 0.5rem;
 }
-.colors, .sizes {
-  margin: 0.5rem 0;
-}
-
 /* STOCK LOCKOUT CONSTRAINTS STYLING */
 .disabled-stock-out, .disabled-out {
   opacity: 0.35;
   text-decoration: line-through;
-  /* pointer-events: none; */
   background: rgba(0,0,0,0.05) !important;
   border-color: transparent !important;
   color: var(--muted) !important;
@@ -590,7 +585,7 @@ select {
 .product-detail h1 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin: 1rem 0 0.5rem 0; }
 .product-detail p.price { font-size: 1.6rem; font-weight: 800; color: var(--brand-red); margin: 0 0 1.5rem 0; }
 
-.colors, .sizes { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1rem; }
+.colors, .sizes { display: flex; gap: 12px; flex-wrap: wrap; margin: 0.5rem 0 1rem 0; }
 .color {
   width: 28px;
   height: 28px;
@@ -694,4 +689,4 @@ input.invalid { border-color: #ff4d4f !important; background: rgba(255,77,79,0.0
 .toast { padding: 12px 24px; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-weight: 600; font-size: 0.95rem; animation: toastIn 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 @keyframes toastIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .toast-error { background: #e11b23; color: white; }
-.toast-success { background: #28a745; color: white; }
+.toast-success { background: #1e7e34; color: white; }

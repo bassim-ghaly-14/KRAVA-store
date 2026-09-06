@@ -62,7 +62,7 @@ function validateForm() {
     errors.name = "Name must be at least 3 characters";
   }
 
-  const phoneRegex = /^[0-9]{11}$/;
+  const phoneRegex = /^\d{11}$/;
 
   if (!phone) {
     errors.phone = "Phone number is required";

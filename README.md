@@ -39,6 +39,7 @@ KRAVA is a client-side e-commerce storefront for an Egyptian streetwear hoodie b
 - Auto-playing lookbook image slider (3.5 s interval) with prev/next controls
 - Toast notifications for user feedback (out-of-stock warnings, invalid input, order success)
 - Glassmorphism-style modals
+- Site-wide favicon and SEO metadata on the home page (`description`, canonical, Open Graph, Twitter/X card)
 
 ## Tech Stack
 
@@ -132,6 +133,7 @@ Practices found in the code:
 - `alt` attributes on product and lookbook imagery; decorative icons use empty `alt`
 - Color and size pickers use `role="button"` with descriptive labels
 - The main navigation has `aria-label="Main navigation"`
+- Success-toast text color adjusted to meet the WCAG AA contrast ratio against its background
 
 No formal WCAG audit or automated accessibility testing has been performed, so no compliance claim is made.
 
